@@ -78,7 +78,7 @@ const defaultFormState = {
 const DetailSidebarContent = forwardRef((props, ref) => {
     const dispatch = useDispatch();
     const { form, handleChange, setForm } = useForm(defaultFormState);
-    
+
     const quotes = useSelector(({ QuoteApp }) => {
         return QuoteApp.quotesReducer.entities;
     });
@@ -88,7 +88,7 @@ const DetailSidebarContent = forwardRef((props, ref) => {
     });
     
     const classes = useStyles();
-    
+
     useImperativeHandle(ref, () => ({
         changeIndex(index) {
             const selectedItem = quotes[index];
@@ -105,14 +105,14 @@ const DetailSidebarContent = forwardRef((props, ref) => {
         <FuseAnimate animation="transition.slideUpIn" delay={200}>
 
             <div className="file-details p-16 sm:p-24">
-                <form className="" noValidate onSubmit={handleSubmit} autoComplete="off">
+                {1 && <form className="" noValidate onSubmit={handleSubmit} autoComplete="off">
                     <TextField
                         fullWidth
                         id="standard-name"
                         label="var1"
                         className={classes.textField}
                         name="var1"
-                        value={selectedItemInit.var1}
+                        value={form.var1}
                         onChange={handleChange}
                         margin="normal"
                     />
@@ -123,7 +123,7 @@ const DetailSidebarContent = forwardRef((props, ref) => {
                         label="Type"
                         className={classes.textField}
                         name="type"
-                        value={selectedItemInit.type}
+                        value={form.type}
                         onChange={handleChange}
                         SelectProps={{
                             MenuProps: {
@@ -146,7 +146,7 @@ const DetailSidebarContent = forwardRef((props, ref) => {
                         label="Category"
                         className={classes.textField}
                         name="category"
-                        value={selectedItemInit.category}
+                        value={form.category}
                         onChange={handleChange}
                         SelectProps={{
                             MenuProps: {
@@ -170,7 +170,7 @@ const DetailSidebarContent = forwardRef((props, ref) => {
                     >
                         Save
                         </Button>
-                </form>
+                </form>}
             </div>
         </FuseAnimate>
     );

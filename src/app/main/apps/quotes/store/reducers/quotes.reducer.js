@@ -5,7 +5,7 @@ const initialState = {
     searchText: '',
     selectedContactIds: [],
     routeParams: {},
-    selectedIndex: 1,
+    selectedIndex: 0,
     contactDialog: {
         type: 'new',
         props: {
@@ -42,7 +42,7 @@ const quotesReducer = function (state = initialState, action) {
             return {
                 ...state,
                 entities: state.entities.map((item, index) => {
-                    if (item.id !== action.payload.QuotesId) {
+                    if (item._id !== action.payload.QuotesId) {
                         return item
                     }
                     return {

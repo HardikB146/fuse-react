@@ -24,19 +24,21 @@ export function getQuotes(routeParams) {
             console.log('getQuotes error', error);
             if (error.response.status == 401) {
                 reloadAuth();
+            } else if (error.response.status == 500) {
+                reloadAuth();
             }
         });
 }
 
-export function updateQuotes(QuotesId, data) {
-    const request = axios.put(`${BASEURL}/api/quotes/${QuotesId}`, data);
-
+export function updateQuotes(formData) {
+    console.log("formData",formData);
+    const request = axios.put(`${BASEURL}/api/quotes/${formData._id}`, formData);
     return (dispatch) =>
         request.then((response) => {
             console.log("updateQuotes response", response);
             dispatch({
                 type: UPDATE_QUOTES,
-                payload: { QuotesId: QuotesId, data: response.data },
+                payload: { QuotesId: formData._id, data: formData },
             });
         }).catch((error) => {
             console.log('updateQuotes error', error);
@@ -61,7 +63,7 @@ export function addQuotes(formData) {
 export function reloadAuth() {
     console.log('login clicked')
     let data = JSON.stringify({
-        "email": "hardikb@com.com",
+        "email": "hardikb@gmail.com",
         "password": "password123"
     })
 
@@ -73,6 +75,7 @@ export function reloadAuth() {
     }).then((response) => {
         console.log('reloadAuth response', response);
         localStorage.setItem("FushReactAuthToken", response.data.access_token);
+        getQuotes();
     }).catch((error) => {
         console.log('reloadAuth error', error);
     })
