@@ -53,7 +53,7 @@ export function addQuotes(formData) {
             console.log("addQuotes response", response);
             dispatch({
                 type: ADD_QUOTES,
-                payload: { data: formData },
+                payload: { data: response.data },
             });
         }).catch((error) => {
             console.log('addQuotes error', error);
