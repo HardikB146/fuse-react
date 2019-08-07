@@ -7,11 +7,11 @@ const config = {
             display: true
         },
         toolbar       : {
-            display : true,
-            position: 'below'
+            display : false,
+            position: 'above'
         },
         footer        : {
-            display: true,
+            display: false,
             style  : 'fixed'
         },
         leftSidePanel : {
@@ -51,6 +51,7 @@ const config = {
             }
         },
         toolbar: {
+            background: '#fff',
             type    : 'group',
             title   : 'Toolbar',
             children: {

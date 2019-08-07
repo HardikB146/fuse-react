@@ -6,17 +6,15 @@ const initialState = {
     selectedContactIds: [],
     routeParams: {},
     selectedIndex: 0,
-    contactDialog: {
-        type: 'new',
-        props: {
-            open: false
-        },
-        data: null
+    pagination: {
+        limit: 5,
+        offset: 0,
+        total: 0,
     }
 };
 
 const quotesReducer = function (state = initialState, action) {
-    console.log("action", action);
+    //console.log("action", action);
     switch (action.type) {
         case Actions.SET_SELECTED_ITEM_ID:
             {
@@ -29,8 +27,13 @@ const quotesReducer = function (state = initialState, action) {
             {
                 return {
                     ...state,
-                    entities: action.payload,
-                    routeParams: action.routeParams
+                    entities: action.payload.data,
+                    routeParams: action.routeParams,
+                    pagination: {
+                        limit: action.payload.limit,
+                        offset: action.payload.offset,
+                        total: action.payload.total,
+                    }
                 };
             }
         case Actions.ADD_QUOTES:

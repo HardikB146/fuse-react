@@ -42,3 +42,15 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+git config user.name hardik
+git config user.email hardikb.conceptive@gmail.com
+
+
+
+"homepage":"https://HardikB146.github.io/fuse-react"
+
+npm run predeploy
+
+git checkout -b gh-pages

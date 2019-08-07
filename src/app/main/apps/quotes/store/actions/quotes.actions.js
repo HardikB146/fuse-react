@@ -17,28 +17,27 @@ export function getQuotes(routeParams) {
             console.log("getQuotes response", response);
             dispatch({
                 type: GET_QUOTES,
-                payload: response.data.data ? response.data.data : [],
+                payload: response.data ? response.data : [],
                 routeParams
             });
         }).catch((error) => {
             console.log('getQuotes error', error);
-            if (error.response.status == 401) {
+            if (error.response.status === 401) {
                 reloadAuth();
-            } else if (error.response.status == 500) {
+            } else if (error.response.status === 500) {
                 reloadAuth();
             }
         });
 }
 
 export function updateQuotes(formData) {
-    console.log("formData",formData);
-    const request = axios.put(`${BASEURL}/api/quotes/${formData._id}`, formData);
+    const request = axios.put(`${BASEURL}/api/quotes/${formData.id}`, formData);
     return (dispatch) =>
         request.then((response) => {
             console.log("updateQuotes response", response);
             dispatch({
                 type: UPDATE_QUOTES,
-                payload: { QuotesId: formData._id, data: formData },
+                payload: { QuotesId: formData.id, data: formData },
             });
         }).catch((error) => {
             console.log('updateQuotes error', error);
@@ -61,7 +60,6 @@ export function addQuotes(formData) {
 }
 
 export function reloadAuth() {
-    console.log('login clicked')
     let data = JSON.stringify({
         "email": "hardikb@gmail.com",
         "password": "password123"

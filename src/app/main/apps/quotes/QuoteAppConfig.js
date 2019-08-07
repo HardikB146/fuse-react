@@ -10,6 +10,10 @@ export const QuoteAppConfig = {
         {
             path     : '/apps/quotes',
             component: React.lazy(() => import('./QuoteApp'))
-        }
+        },
+        {
+            path     : '/apps/quote/add',
+            component: React.lazy(() => import('./QuoteAdd'))
+        },
     ]
 };

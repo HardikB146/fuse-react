@@ -1,10 +1,7 @@
-import React, { useImperativeHandle, forwardRef } from 'react';
+import React from 'react';
 import { Button, TextField, MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { FuseAnimate } from '@fuse';
-import { useForm } from '@fuse/hooks';
-import { useSelector, useDispatch } from 'react-redux';
-import * as Actions from './store/actions';
 
 const currencies = [
     {
@@ -69,51 +66,21 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const defaultFormState = {
-    var1: "",
-    type: "",
-    category: "",
-};
-
-const DetailSidebarContent = forwardRef((props, ref) => {
-    const dispatch = useDispatch();
-    const { form, handleChange, setForm } = useForm(defaultFormState);
-
-    const quotes = useSelector(({ QuoteApp }) => {
-        return QuoteApp.quotesReducer.entities;
-    });
-
-    const selectedItemInit = useSelector(({ QuoteApp }) => {
-        return QuoteApp.quotesReducer.entities[QuoteApp.quotesReducer.selectedIndex];
-    });
-    
+function DetailSidebarContent(props) {
     const classes = useStyles();
-
-    useImperativeHandle(ref, () => ({
-        changeIndex(index) {
-            const selectedItem = quotes[index];
-            setForm({ ...selectedItem });
-            dispatch(Actions.setSelectedIndex(index));
-        }
-    }));
-    function handleSubmit(event) {
-        event.preventDefault();
-        dispatch(Actions.updateQuotes(form));
-    }
-
     return (
         <FuseAnimate animation="transition.slideUpIn" delay={200}>
 
             <div className="file-details p-16 sm:p-24">
-                {1 && <form className="" noValidate onSubmit={handleSubmit} autoComplete="off">
+                {<form className="" noValidate onSubmit={props.handleSubmit} autoComplete="off">
                     <TextField
                         fullWidth
                         id="standard-name"
                         label="var1"
                         className={classes.textField}
                         name="var1"
-                        value={form.var1}
-                        onChange={handleChange}
+                        value={props.form.var1}
+                        onChange={props.handleChange}
                         margin="normal"
                     />
                     <TextField
@@ -123,8 +90,8 @@ const DetailSidebarContent = forwardRef((props, ref) => {
                         label="Type"
                         className={classes.textField}
                         name="type"
-                        value={form.type}
-                        onChange={handleChange}
+                        value={props.form.type}
+                        onChange={props.handleChange}
                         SelectProps={{
                             MenuProps: {
                                 className: classes.menu,
@@ -146,8 +113,8 @@ const DetailSidebarContent = forwardRef((props, ref) => {
                         label="Category"
                         className={classes.textField}
                         name="category"
-                        value={form.category}
-                        onChange={handleChange}
+                        value={props.form.category}
+                        onChange={props.handleChange}
                         SelectProps={{
                             MenuProps: {
                                 className: classes.menu,
@@ -164,9 +131,9 @@ const DetailSidebarContent = forwardRef((props, ref) => {
                     </TextField>
                     <Button
                         variant="contained"
-                        color="primary"
+                        color="secondary"
                         type="submit"
-                        onClick={handleSubmit}
+                        onClick={(ev) => props.handleSubmit(ev)}
                     >
                         Save
                         </Button>
@@ -174,7 +141,6 @@ const DetailSidebarContent = forwardRef((props, ref) => {
             </div>
         </FuseAnimate>
     );
-}
-);
+};
 
 export default DetailSidebarContent;
