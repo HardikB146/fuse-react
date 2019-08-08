@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Tooltip, Toolbar, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Paper, Checkbox, TablePagination } from '@material-ui/core';
+import { Typography, Tooltip, Icon, Toolbar, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Paper, Checkbox, TablePagination } from '@material-ui/core';
 import { FuseAnimate } from '@fuse';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import Moment from 'moment';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
 
 
 const useStyles = makeStyles(theme => ({
@@ -15,7 +14,6 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
         width: '100%',
-        marginBottom: theme.spacing(2),
     },
     table: {
         minWidth: 750,
@@ -34,6 +32,9 @@ const useStyles = makeStyles(theme => ({
         top: 20,
         width: 1,
     },
+    temppad:{
+        //padding:"10px",
+    }
 }));
 
 
@@ -45,6 +46,7 @@ const headRows = [
     { id: 'type', numeric: true, disablePadding: false, label: 'Type' },
     { id: 'status', numeric: true, disablePadding: false, label: 'Status' },
     { id: 'dateCreated', numeric: true, disablePadding: false, label: 'Created' },
+    { id: 'action', numeric: true, disablePadding: false, label: 'Action' },
 
 ];
 
@@ -108,22 +110,23 @@ const EnhancedTableToolbar = props => {
     return (
         <Toolbar
             className={clsx(classes.root, {
-                [classes.highlight]: numSelected > 0,
+                [classes.highlight]: numSelected.length > 0,
             })}
         >
             <div className={classes.title}>
-                {numSelected > 0 ? (
+                {numSelected.length > 0 ? (
                     <Typography color="inherit" variant="subtitle1">
-                        {numSelected} selected
+                        {numSelected.length} selected
                     </Typography>
                 ) : ""}
             </div>
             <div className={classes.spacer} />
             <div className={classes.actions}>
-                {numSelected > 0 ? (
+                {numSelected.length > 0 ? (
                     <Tooltip title="Delete">
                         <IconButton aria-label="delete">
-                            <DeleteIcon />
+                            <DeleteIcon
+                                onClick={props.deleteItemsCall} />
                         </IconButton>
                     </Tooltip>
                 ) : ""}
@@ -137,6 +140,7 @@ function QuoteList(props) {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('calories');
     const [selected, setSelected] = useState([]);
+    const [editRowId, setEditRowId] = useState("");
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -188,13 +192,18 @@ function QuoteList(props) {
         setPage(0);
     }
 
+    function deleteItemsCall() {
+        props.deleteItems(selected);
+        setSelected([]);
+    }
+
     const isSelected = name => selected.indexOf(name) !== -1;
 
     return (
         <FuseAnimate animation="transition.slideUpIn" delay={300}>
-            <div>
-                <Paper className={classes.paper}>
-                    <EnhancedTableToolbar numSelected={selected.length} />
+            <div className={classes.temppad}>
+                <Paper className={`${classes.paper}`}>
+                    <EnhancedTableToolbar numSelected={selected} deleteItemsCall={deleteItemsCall} />
                     <div className={classes.tableWrapper}>
                         <Table
                             className={classes.table}
@@ -217,16 +226,19 @@ function QuoteList(props) {
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={event => handleClick(event, row.id)}
+
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
                                             key={row.id}
-                                            selected={isItemSelected}
+                                            selected={editRowId === row.id}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
                                                     checked={isItemSelected}
+                                                    onChange={(event) => {
+                                                        handleClick(event, row.id);
+                                                    }}
                                                     inputProps={{ 'aria-labelledby': labelId }}
                                                 />
                                             </TableCell>
@@ -238,6 +250,13 @@ function QuoteList(props) {
                                             <TableCell align="right">{row.type}</TableCell>
                                             <TableCell align="right">{row.status}</TableCell>
                                             <TableCell align="right">{Moment(row.dateCreated).format('d MMM YYYY')}</TableCell>
+                                            <TableCell align="right">
+                                                <Icon className="cursor-pointer" onClick={(event) => {
+                                                    //handleClick(event, row.id);
+                                                    setEditRowId(row.id);
+                                                    props.changeIndex(index);
+                                                }}>create</Icon>
+                                            </TableCell>
                                         </TableRow>
                                     );
                                 })}

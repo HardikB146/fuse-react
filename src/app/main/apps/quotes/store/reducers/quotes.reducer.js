@@ -40,6 +40,21 @@ const quotesReducer = function (state = initialState, action) {
             return {
                 ...state,
                 entities: [...state.entities, action.payload.data],
+                pagination: {
+                    limit: state.pagination.limit,
+                    offset: state.pagination.offset,
+                    total: (state.pagination.total + 1),
+                }
+            }
+        case Actions.DELETE_QUOTES:
+            return {
+                ...state,
+                entities: state.entities.filter(item => item.id !== action.payload.QuotesId),
+                pagination: {
+                    limit: state.pagination.limit,
+                    offset: state.pagination.offset,
+                    total: (state.pagination.total - 1),
+                }
             }
         case Actions.UPDATE_QUOTES:
             return {

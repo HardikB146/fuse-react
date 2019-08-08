@@ -55,8 +55,8 @@ const useStyles = makeStyles(theme => ({
         flexWrap: 'wrap',
     },
     textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
+        // marginLeft: theme.spacing(1),
+        // marginRight: theme.spacing(1),
     },
     dense: {
         marginTop: theme.spacing(2),
@@ -64,80 +64,90 @@ const useStyles = makeStyles(theme => ({
     menu: {
         width: 200,
     },
+    temppad: {
+        marginTop: "6px",
+        width: "100%",
+        padding: "0px 15px"
+        //boxShadow: "0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12)"
+    }
 }));
 
 function DetailSidebarContent(props) {
     const classes = useStyles();
+
     return (
         <FuseAnimate animation="transition.slideUpIn" delay={200}>
-
-            <div className="file-details p-16 sm:p-24">
-                {<form className="" noValidate onSubmit={props.handleSubmit} autoComplete="off">
-                    <TextField
-                        fullWidth
-                        id="standard-name"
-                        label="var1"
-                        className={classes.textField}
-                        name="var1"
-                        value={props.form.var1}
-                        onChange={props.handleChange}
-                        margin="normal"
-                    />
-                    <TextField
-                        fullWidth
-                        id="outlined-select-type"
-                        select
-                        label="Type"
-                        className={classes.textField}
-                        name="type"
-                        value={props.form.type}
-                        onChange={props.handleChange}
-                        SelectProps={{
-                            MenuProps: {
-                                className: classes.menu,
-                            },
-                        }}
-                        margin="normal"
-                    //variant="outlined"
-                    >
-                        {currencies.map(option => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                    <TextField
-                        fullWidth
-                        id="outlined-select-category"
-                        select
-                        label="Category"
-                        className={classes.textField}
-                        name="category"
-                        value={props.form.category}
-                        onChange={props.handleChange}
-                        SelectProps={{
-                            MenuProps: {
-                                className: classes.menu,
-                            },
-                        }}
-                        margin="normal"
-                    //variant="outlined"
-                    >
-                        {categoryObj.map(option => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        type="submit"
-                        onClick={(ev) => props.handleSubmit(ev)}
-                    >
-                        Save
+            <div className={classes.temppad}>
+                <div className="file-details">
+                    {<form className="" noValidate onSubmit={props.handleSubmit} autoComplete="off">
+                        <TextField
+                            fullWidth
+                            id="standard-name"
+                            label="var1"
+                            className={classes.textField}
+                            name="var1"
+                            value={props.form.var1}
+                            onChange={props.handleChange}
+                            margin="normal"
+                        />
+                        <TextField
+                            fullWidth
+                            id="outlined-select-type"
+                            select
+                            label="Type"
+                            className={classes.textField}
+                            name="type"
+                            value={props.form.type}
+                            onChange={props.handleChange}
+                            SelectProps={{
+                                MenuProps: {
+                                    className: classes.menu,
+                                },
+                            }}
+                            margin="normal"
+                        //variant="outlined"
+                        >
+                            {currencies.map(option => (
+                                <MenuItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                        <TextField
+                            fullWidth
+                            id="outlined-select-category"
+                            select
+                            label="Category"
+                            className={classes.textField}
+                            name="category"
+                            value={props.form.category}
+                            onChange={props.handleChange}
+                            SelectProps={{
+                                MenuProps: {
+                                    className: classes.menu,
+                                },
+                            }}
+                            margin="normal"
+                        //variant="outlined"
+                        >
+                            {categoryObj.map(option => (
+                                <MenuItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            type="submit"
+                            className="mt-2"
+                            disabled={!Boolean(props.form.category)}
+                            onClick={(ev) => props.handleSubmit(ev)}
+                        >
+                            Save
                         </Button>
-                </form>}
+                    </form>}
+                </div>
             </div>
         </FuseAnimate>
     );

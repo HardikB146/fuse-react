@@ -14,16 +14,11 @@ function DetailSidebarHeader(props) {
             <div className="toolbar flex align-center justify-end">
                 <FuseAnimate animation="transition.expandIn" delay={200}>
                     <IconButton>
-                        <Icon>delete</Icon>
-                    </IconButton>
-                </FuseAnimate>
-                <FuseAnimate animation="transition.expandIn" delay={200}>
-                    <IconButton>
-                        <Icon>cloud_download</Icon>
+                        <Icon className="text-black">cloud_download</Icon>
                     </IconButton>
                 </FuseAnimate>
                 <IconButton>
-                    <Icon>more_vert</Icon>
+                    <Icon className="text-black">more_vert</Icon>
                 </IconButton>
             </div>
             <div className="p-12">

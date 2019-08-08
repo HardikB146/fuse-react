@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const GET_QUOTES = '[QUOTES APP] GET QUOTES';
 export const UPDATE_QUOTES = '[QUOTES APP] UPDATE QUOTES';
+export const DELETE_QUOTES = '[QUOTES APP] DELETE QUOTES';
 export const ADD_QUOTES = '[QUOTES APP] ADD QUOTES';
 export const SET_SELECTED_ITEM_ID = '[QUOTES APP] SET SELECTED ITEM';
 
@@ -43,6 +44,21 @@ export function updateQuotes(formData) {
             console.log('updateQuotes error', error);
         });
 }
+
+export function deleteQuotes(Id) {
+    const request = axios.delete(`${BASEURL}/api/quotes/${Id}`);
+    return (dispatch) =>
+        request.then((response) => {
+            console.log("deleteQuotes response", response);
+            dispatch({
+                type: DELETE_QUOTES,
+                payload: { QuotesId: Id },
+            });
+        }).catch((error) => {
+            console.log('deleteQuotes error', error);
+        });
+}
+
 
 export function addQuotes(formData) {
     const request = axios.post(`${BASEURL}/api/quotes`, formData);

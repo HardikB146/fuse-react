@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from '@fuse/hooks';
 import { Link } from 'react-router-dom';
 import QuoteList from './QuoteList';
-import QuoteDialog from './QuoteDialog';
 import DetailSidebarContent from './DetailSidebarContent';
 import DetailSidebarHeader from './DetailSidebarHeader';
 import * as Actions from './store/actions';
@@ -21,11 +20,14 @@ const defaultFormState = {
 
 const useStyles = makeStyles(theme => ({
     header: {
-        background: "#e8e6e6",
+        background: "#e4e4e4",
         color: "#000000de",
         zIndex: "1",
         boxShadow: "0px 1px 8px 0px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 3px 3px -2px rgba(0,0,0,0.12)"
     },
+    bgimp: {
+        backgroundColor: "#FFFFFF !important"
+    }
 }));
 
 function QuoteApp(props) {
@@ -45,8 +47,6 @@ function QuoteApp(props) {
     }, []);
 
     const pageLayout = useRef(null);
-    const childRef = useRef();
-    const dialogRef = useRef();
 
     function changeIndex(index) {
         const selectedItemTeml = quotes.entities[index];
@@ -61,8 +61,15 @@ function QuoteApp(props) {
         dispatch(Actions.updateQuotes(form));
     }
 
+    function deleteItems(Ids = []) {
+        console.log("sasa00", Ids);
+        Ids.map(val => {
+            dispatch(Actions.deleteQuotes(val));
+        });
+    }
+
     function LoadQuotes(limit = 10, offset = 0) {
-        dispatch(Actions.getQuotes({ limit: limit, offset: offset }));
+        dispatch(Actions.getQuotes({ limit: limit, offset: (offset * limit) }));
     }
 
     return (
@@ -72,7 +79,10 @@ function QuoteApp(props) {
                     root: "bg-red",
                     header: `${classes.header}`,
                     sidebarHeader: `${classes.header}`,
-                    rightSidebar: "w-320"
+                    rightSidebar: `w-320 ${classes.bgimp}`,
+                    content: "bg-white",
+                    sidebarContent: "bg-white px-4",
+                    sidebar: "bg-white"
                 }}
                 header={
                     <div className="flex flex-col flex-1 p-8 sm:p-12 relative">
@@ -94,18 +104,17 @@ function QuoteApp(props) {
                     </div>
                 }
                 content={
-                    <QuoteList LoadQuotes={LoadQuotes} changeIndex={changeIndex} quotesData={quotes} />
+                    <QuoteList deleteItems={deleteItems} LoadQuotes={LoadQuotes} changeIndex={changeIndex} quotesData={quotes} />
                 }
                 rightSidebarHeader={
                     <DetailSidebarHeader selectedItem={selectedItem} />
                 }
                 rightSidebarContent={
-                    <DetailSidebarContent ref={childRef} LoadQuotes={LoadQuotes} form={form} handleChange={handleChange} handleSubmit={handleSubmit} />
+                    <DetailSidebarContent LoadQuotes={LoadQuotes} form={form} handleChange={handleChange} handleSubmit={handleSubmit} />
                 }
                 ref={pageLayout}
                 innerScroll
             />
-            <QuoteDialog ref={dialogRef} />
         </div>
     )
 }

@@ -159,7 +159,7 @@ function QuoteAdd(props) {
                                                     name="var1"
                                                     value={form.var1}
                                                     onChange={handleChange}
-                                                    margin="normal"
+                                                    //margin="normal"
                                                 />
                                             </div>
 
@@ -179,7 +179,7 @@ function QuoteAdd(props) {
                                                             className: classes.menu,
                                                         },
                                                     }}
-                                                    margin="normal"
+                                                    //margin="normal"
                                                 //variant="outlined"
                                                 >
                                                     {currencies.map(option => (
@@ -205,7 +205,7 @@ function QuoteAdd(props) {
                                                             className: classes.menu,
                                                         },
                                                     }}
-                                                    margin="normal"
+                                                   // margin="normal"
                                                 //variant="outlined"
                                                 >
                                                     {categoryObj.map(option => (
